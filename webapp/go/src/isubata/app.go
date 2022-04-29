@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	crand "crypto/rand"
 	"crypto/sha1"
 	"database/sql"
@@ -685,6 +686,9 @@ func postProfile(c echo.Context) error {
 			return err
 		}
 		defer file.Close()
+
+		reader := bytes.NewReader(avatarData)
+		io.Copy(file, reader)
 
 		_, err = db.Exec("UPDATE user SET avatar_icon = ? WHERE id = ?", avatarName, self.ID)
 		if err != nil {
