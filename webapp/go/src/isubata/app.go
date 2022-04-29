@@ -682,7 +682,7 @@ func postProfile(c echo.Context) error {
 	if avatarName != "" && len(avatarData) > 0 {
 		file, err := os.Create("/data/images/" + avatarName)
 		if err != nil {
-			panic(err)
+			return err
 		}
 		defer file.Close()
 
